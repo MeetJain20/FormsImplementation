@@ -1,0 +1,101 @@
+form {
+    max-width: 65%;
+    margin: 2rem auto;
+    padding: 2rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: #f9f9f9;
+  }
+  
+  label {
+    display: block;
+  }
+
+
+  .heading{
+    text-align: center;
+  }
+  
+  .input-text,
+  .input-time,
+  .input-date,
+  .textarea {
+    width: 100%;
+    margin: 0.5rem 0rem;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    outline: none;
+    font-size: 1rem;
+  }
+
+  .input-radio,.input-checkbox{
+    margin-right: 5px;
+  }
+  
+  .required{
+    color: red;
+  }
+
+  .input-option {
+    margin: 0.5rem 0.5rem;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .textarea {
+    resize: vertical;
+    height: 100px;
+  }
+  
+  .remove {
+    margin: 1.5rem 0rem;
+  }
+  
+  .addoption {
+    margin: 0.5rem 0rem;
+  }
+  
+  .types {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 1rem;
+  }
+  
+  button {
+    padding: 15px 20px;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .submitform {
+    display: flex;
+    justify-content: center;
+  }
+  
+  .option-value {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+  
+  .question-type-dropdown {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+    font-size: 15px;
+  }
+  
+  .non-selectable {
+    pointer-events: none;
+    user-select: none;
+    background-color: #f5f5f5;
+  }
+  

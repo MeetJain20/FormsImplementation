@@ -1,77 +1,120 @@
-form {
-    max-width: 45%;
-    margin: 2rem auto;
-    padding: 2rem;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    background-color: #f9f9f9;
-  }
-  
-  label {
-    display: block;
-  }
-  
-  .input-text,
-  .input-time,
-  .input-date,
-  .textarea {
-    width: 100%;
-    margin: 0.5rem 0rem;
-    padding: 0.5rem;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
-    font-size: 1rem;
-  }
-  
-  .input-option{
-    margin: 0.5rem 0.5rem;
-    padding: 0.5rem;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-  }
+.form-container {
+  display: flex;
+  margin-left: 8rem;
+  align-items: flex-start; /* Adjust alignment as needed */
+  gap: 2rem;
+  padding: 2rem;
+  box-sizing: border-box;
+}
 
-  .textarea {
-    resize: vertical;
-    height: 100px;
-  }
-  
-  .remove {
-    margin: 1.5rem 0rem;
-  }
+.form-creation{
+  flex: 1;
+  max-width: 50%;
+  background-color: #f9f9f9;
+  padding: 2rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
 
-  .addoption{
-    margin: 0.5rem 0rem;
+.form-preview {
+  flex: 1;
+  position: fixed;
+    top: 10rem; 
+    right: 20px; 
+    width: 45%; 
+    height: calc(100vh - 15rem); 
+    padding: 20px 5px;
+    overflow-y: auto; 
+    border-radius: 10px;
+}
 
-  }
-  
-  .types {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    gap: 10px;
-    margin-bottom: 1rem;
-  }
-  
-  button {
-    padding: 15px 20px;
-    border: none;
-    cursor: pointer;
-  }
-  
-  .submitform {
-    display: flex;
-    justify-content: center;
-    
-  }
-  
-  .question-type-dropdown {
-    width: 100%;
-    padding: 10px;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    box-sizing: border-box;
-    font-size: 15px;
-  }
-  
+.form-preview::-webkit-scrollbar {
+  width: 1px;
+  border-radius: 10px;
+}
+
+.form-preview::-webkit-scrollbar-track {
+  background-color: #f1f1f1;
+}
+
+.form-preview::-webkit-scrollbar-thumb {
+  background-color: #adadad;
+}
+
+label {
+  display: block;
+}
+
+.input-text,
+.input-time,
+.input-date,
+.textarea {
+  width: 100%;
+  margin: 0.5rem 0rem;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  outline: none;
+}
+
+.input-option {
+  margin: 0.5rem 0.5rem;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.textarea {
+  resize: vertical;
+  height: 100px;
+}
+
+.remove {
+  margin: 1.5rem 0rem;
+}
+
+.types {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 1rem;
+}
+
+.pi-plus-circle {
+  margin-right: 7px;
+}
+
+button {
+  padding: 15px 20px;
+  border: none;
+  cursor: pointer;
+}
+
+.submitform {
+  display: flex;
+  justify-content: center;
+}
+
+.option-value {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.question-type-dropdown {
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  box-sizing: border-box;
+  font-size: 15px;
+}
+
+.non-selectable {
+  pointer-events: none;
+  user-select: none;
+  background-color: #f5f5f5; /* Optional: make it look disabled */
+}

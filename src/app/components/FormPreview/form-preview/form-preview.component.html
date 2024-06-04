@@ -1,0 +1,36 @@
+<div class="form-preview">
+    <h2 class="heading">Form Preview</h2>
+    <form [formGroup]="form">
+      <div formArrayName="questions">
+        <div *ngFor="let question of formGroups; let i = index" [formGroupName]="i" class="question">  
+          <label>
+            {{ question.get('question')?.value }}
+            <span *ngIf="isRequired(question)" class="required">*</span>
+          </label>
+          <div [ngSwitch]="question.get('type')?.value" class="mb-3">
+            <input *ngSwitchCase="'short'" type="text" formControlName="response" class="input-text" />
+            <textarea *ngSwitchCase="'long'" formControlName="response" rows="4" class="textarea"></textarea>
+            <input *ngSwitchCase="'time'" type="time" formControlName="response" class="input-time" />
+            <input *ngSwitchCase="'date'" type="date" formControlName="response" class="input-date" />
+            <div *ngSwitchCase="'multiple'">
+              <div formArrayName="options">
+                <div *ngFor="let option of getOptions(question).controls; let j = index" [formGroupName]="j" class="option-value">
+                  <input type="radio" [value]="option.get('value')?.value" [formControlName]="'selectedOption'" class="input-radio" />
+                  <label>{{ option.get('value')?.value }}</label>
+                </div>
+              </div>
+            </div>
+            <div *ngSwitchCase="'checkbox'">
+              <div formArrayName="options">
+                <div *ngFor="let option of getOptions(question).controls; let j = index" [formGroupName]="j" class="option-value">
+                  <input type="checkbox" [value]="option.get('value')?.value" [formControlName]="j" class="input-checkbox" />
+                  <label>{{ option.get('value')?.value }}</label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  
