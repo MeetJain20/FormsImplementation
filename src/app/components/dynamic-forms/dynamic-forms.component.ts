@@ -1,61 +1,59 @@
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  FormArray,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-dynamic-forms',
   templateUrl: './dynamic-forms.component.html',
-  styleUrls: ['./dynamic-forms.component.scss']
+  styleUrls: ['./dynamic-forms.component.scss'],
 })
 export class DynamicFormsComponent implements OnInit {
   form: FormGroup;
 
   constructor(private fb: FormBuilder, private router: Router) {
     this.form = this.fb.group({
-      questions: this.fb.array([])
+      questionsListFormArray: this.fb.array([]),
     });
+
   }
 
   ngOnInit() {}
 
-  get questions(): FormArray {
-    return this.form.get('questions') as FormArray;
+  get questionsListFormArray(): FormArray {
+    return this.form.get('questionsListFormArray') as FormArray;
   }
 
   addQuestion(type: string) {
-    const question = this.fb.group({
-      type: [type, Validators.required],
-      question: ['', Validators.required],
-      isRequired: [false],
-      answer: this.fb.group({})
+    const newQuestionFormGroup = this.fb.group({
+      questionType: [type, Validators.required],
+      placeholder: new FormControl(''),
+      questionText: new FormControl('', Validators.required),
+      isRequired: new FormControl(false),
+      answer: new FormControl(''),
+      options: new FormArray([]),
     });
 
-    if (type === 'short' || type === 'long') {
-      (question as FormGroup).addControl('placeholder', this.fb.control(''));
-      (question.get('answer') as FormGroup).addControl('response', this.fb.control(''));
-    } else if (type === 'time' || type === 'date') {
-      (question.get('answer') as FormGroup).addControl('response', this.fb.control(''));
-    } else if (type === 'multiple' || type === 'checkbox') {
-      const options = this.fb.array([this.createOption()]);
-      (question.get('answer') as FormGroup).addControl('options', options);
-      if (type === 'checkbox') {
-        (question.get('answer') as FormGroup).addControl('selectedOptions', this.fb.array([]));
-      } else {
-        (question.get('answer') as FormGroup).addControl('selectedOption', this.fb.control(''));
-      }
-    }
+    (newQuestionFormGroup.get('options') as FormArray).push(
+      this.createOption()
+    );
 
-    this.questions.push(question);
+    this.questionsListFormArray.push(newQuestionFormGroup);
   }
 
   createOption(): FormGroup {
     return this.fb.group({
-      value: ['', Validators.required]
+      value: ['', Validators.required],
     });
   }
 
   removeQuestion(index: number) {
-    this.questions.removeAt(index);
+    this.questionsListFormArray.removeAt(index);
   }
 
   addOption(questionIndex: number) {
@@ -68,7 +66,9 @@ export class DynamicFormsComponent implements OnInit {
   }
 
   getOptions(questionIndex: number): FormArray {
-    return this.questions.at(questionIndex).get('answer.options') as FormArray;
+    return this.questionsListFormArray
+      .at(questionIndex)
+      .get('options') as FormArray;
   }
 
   areOptionsEmpty(options: FormArray): boolean {
@@ -80,21 +80,6 @@ export class DynamicFormsComponent implements OnInit {
     return false;
   }
 
-  onCheckboxChange(event: any, questionIndex: number) {
-    const selectedOptions = this.questions.at(questionIndex).get('answer.selectedOptions') as FormArray;
-    if (event.target.checked) {
-      selectedOptions.push(this.fb.control(event.target.value));
-    } else {
-      const index = selectedOptions.controls.findIndex(x => x.value === event.target.value);
-      selectedOptions.removeAt(index);
-    }
-  }
-
-  onRadioChange(event: any, questionIndex: number) {
-    const selectedOption = this.questions.at(questionIndex).get('answer.selectedOption');
-    selectedOption?.setValue(event.target.value);
-  }
-
   handleIconClick(event: Event, index: number) {
     event.stopPropagation();
     this.addOption(index);
@@ -102,28 +87,19 @@ export class DynamicFormsComponent implements OnInit {
 
   onTypeChange(event: any, questionIndex: number) {
     const selectedType = event.target.value;
-    const answerControl = this.questions.at(questionIndex).get('answer') as FormGroup;
+    const answerControl = this.questionsListFormArray
+      .at(questionIndex)
+      .get('answer') as FormControl;
 
     answerControl.reset();
 
-    if (selectedType === 'short' || selectedType === 'long' || selectedType === 'time' || selectedType === 'date') {
-      answerControl.addControl('response', this.fb.control(''));
-    } else if (selectedType === 'multiple' || selectedType === 'checkbox') {
-      const options = this.fb.array([this.createOption()]);
-      answerControl.addControl('options', options);
-      if (selectedType === 'checkbox') {
-        answerControl.addControl('selectedOptions', this.fb.array([]));
-      } else {
-        answerControl.addControl('selectedOption', this.fb.control(''));
-      }
-    }
   }
 
   onTypeSelect(event: any, dropdown: HTMLSelectElement) {
     const selectedType = event.target.value;
     if (selectedType) {
       this.addQuestion(selectedType);
-      dropdown.value = '';  // Reset the dropdown value
+      dropdown.value = '';
     }
   }
 
@@ -138,8 +114,8 @@ export class DynamicFormsComponent implements OnInit {
 
   onRequiredChange(event: any, questionIndex: number) {
     const isRequired = event.target.checked;
-    const questionControl = this.questions.at(questionIndex);
-    const answerControl = questionControl.get('answer.response');
+    const questionControl = this.questionsListFormArray.at(questionIndex);
+    const answerControl = questionControl.get('answer');
 
     if (isRequired) {
       answerControl?.setValidators(Validators.required);
@@ -155,21 +131,29 @@ export class DynamicFormsComponent implements OnInit {
       alert(invalidQuestion);
       return;
     }
+    if(this.questionsListFormArray.length===0)
+    {
+      alert('Please add atleast one question');
+      return;
+    }
     console.log(this.form.value);
-    const formValue = this.form.value;
-    this.router.navigate(['/displayform'], { state: { form: JSON.stringify(formValue) } });
+    const formValue = this.form.getRawValue();
+    this.router.navigate(['/displayform'], { state: { form: formValue } });
   }
 
   getInvalidQuestion(): string | null {
-    const questions = this.questions.controls;
+    const questions = this.questionsListFormArray.controls;
     for (let i = 0; i < questions.length; i++) {
       const question = questions[i];
       if (question.invalid) {
-        if (!question.get('question')?.value.trim()) {
+        if (!question.get('questionText')?.value.trim()) {
           return 'Please fill in all the questions.';
         }
-        const type = question.get('type')?.value;
-        if ((type === 'multiple' || type === 'checkbox') && this.areOptionsEmpty(this.getOptions(i))) {
+        const type = question.get('questionType')?.value;
+        if (
+          (type === 'multiple' || type === 'checkbox') &&
+          this.areOptionsEmpty(this.getOptions(i))
+        ) {
           return 'Please fill in all the options.';
         }
       }

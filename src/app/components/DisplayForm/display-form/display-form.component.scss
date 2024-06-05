@@ -1,62 +1,62 @@
-.form-container {
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    padding: 2rem;
-    box-sizing: border-box;
-  }
-  
-  .form-preview {
-    flex: 1;
-    max-width: 45%;
-    background-color: #f9f9f9;
-    padding: 2rem;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  }
-  
-  label {
-    display: block;
-  }
-  
-  .input-text,
-  .input-time,
-  .input-date,
-  .textarea {
-    width: 100%;
-    margin: 0.5rem 0rem;
-    padding: 0.5rem;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
-    outline: none;
-  }
-  
-  .input-option {
-    margin: 0.5rem 0.5rem;
-    padding: 0.5rem;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-  }
-  
-  .textarea {
-    resize: vertical;
-    height: 100px;
-  }
-  
-  button {
-    padding: 15px 20px;
-    border: none;
-    cursor: pointer;
-  }
-  
-  .option-value {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-  }
+.displayform-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 2rem;
+  box-sizing: border-box;
+}
 
-  .required{
-    color: red;
-  }
-  
+.displayform {
+  flex: 1;
+  max-width: 45%;
+  background-color: #f9f9f9;
+  padding: 2rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+label {
+  display: block;
+}
+
+.input-text,
+.input-time,
+.input-date,
+.textarea {
+  width: 100%;
+  margin: 0.5rem 0rem;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  outline: none;
+}
+
+.input-option {
+  margin: 0.5rem 0.5rem;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.textarea {
+  resize: vertical;
+  height: 100px;
+}
+
+button {
+  padding: 15px 20px;
+  border: none;
+  cursor: pointer;
+}
+
+.option-value {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.required {
+  color: red;
+}

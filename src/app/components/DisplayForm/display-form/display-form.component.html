@@ -1,94 +1,83 @@
-<div class="form-container">
-    <div class="form-preview">
-      <form [formGroup]="form">
-        <div formArrayName="questions">
-          <div
-            *ngFor="let questionGroup of formGroups; let i = index"
-            [formGroupName]="i"
-          >
-            <label class="mb-2">
-              {{ questionGroup.get("question")?.value }}
-              <span *ngIf="isRequired(questionGroup)" class="required">*</span>
-            </label>
-            <div [ngSwitch]="questionGroup.get('type')?.value">
-              <div *ngSwitchCase="'short'">
-                <input
-                  formGroupName="answer"
-                  formControlName="response"
-                  type="text"
-                  [placeholder]="questionGroup.get('placeholder')?.value"
-                  class="input-text"
-                  readonly
-                />
-              </div>
-              <div *ngSwitchCase="'long'">
-                <textarea
-                  formGroupName="answer"
-                  formControlName="response"
-                  [placeholder]="questionGroup.get('placeholder')?.value"
-                  class="textarea"
-                  readonly
-                ></textarea>
-              </div>
-              <div *ngSwitchCase="'multiple'">
-                <div formGroupName="answer">
-                  <div formArrayName="options">
-                    <div
-                      *ngFor="let option of getOptions(questionGroup).controls; let j = index"
-                      [formGroupName]="j"
-                      class="option-value"
-                    >
-                      <input type="radio" class="input-radio" />
-                      <input
-                        formControlName="value"
-                        type="text"
-                        class="input-option"
-                        readonly
-                      />
-                    </div>
-                  </div>
+
+<div class="displayform-container">
+  <div class="displayform">
+    <form [formGroup]="form">
+      <div formArrayName="questionsListFormArray">
+        <div
+          *ngFor="let questionGroup of formGroups; let i = index"
+          [formGroup]="questionGroup"
+        >
+          <label class="mb-2">
+            {{ questionGroup.get('questionText')?.value }}
+            <span *ngIf="isRequired(questionGroup)" class="required">*</span>
+          </label>
+          <div [ngSwitch]="questionGroup.get('questionType')?.value" class="mb-3">
+            <div *ngSwitchCase="'short'">
+              <input
+                formControlName="answer"
+                type="text"
+                [placeholder]="questionGroup.get('placeholder')?.value"
+                class="input-text"
+              />
+            </div>
+            <div *ngSwitchCase="'long'">
+              <textarea
+                formControlName="answer"
+                [placeholder]="questionGroup.get('placeholder')?.value"
+                class="textarea"
+              ></textarea>
+            </div>
+            <div *ngSwitchCase="'multiple'">
+              <div formArrayName="options">
+                <div
+                  *ngFor="let option of $any(questionGroup.get('options'))?.controls; let j = index"
+                  [formGroup]="option"
+                  class="option-value"
+                >
+                  <input type="radio" class="input-radio" />
+                  <input
+                    formControlName="value"
+                    type="text"
+                    class="input-option"
+                    readonly
+                  />
                 </div>
               </div>
-              <div *ngSwitchCase="'checkbox'">
-                <div formGroupName="answer">
-                  <div formArrayName="options">
-                    <div
-                      *ngFor="let option of getOptions(questionGroup).controls; let j = index"
-                      [formGroupName]="j"
-                    >
-                      <input type="checkbox" class="input-radio" />
-                      <input
-                        formControlName="value"
-                        type="text"
-                        class="input-option"
-                        readonly
-                      />
-                    </div>
-                  </div>
+            </div>
+            <div *ngSwitchCase="'checkbox'">
+              <div formArrayName="options">
+                <div
+                  *ngFor="let option of $any(questionGroup.get('options'))?.controls; let j = index"
+                  [formGroup]="option"
+                >
+                  <input type="checkbox" class="input-checkbox" />
+                  <input
+                    formControlName="value"
+                    type="text"
+                    class="input-option"
+                    readonly
+                  />
                 </div>
               </div>
-              <div *ngSwitchCase="'time'">
-                <input
-                  formGroupName="answer"
-                  formControlName="response"
-                  type="time"
-                  class="input-time"
-                  readonly
-                />
-              </div>
-              <div *ngSwitchCase="'date'">
-                <input
-                  formGroupName="answer"
-                  formControlName="response"
-                  type="date"
-                  class="input-date"
-                  readonly
-                />
-              </div>
+            </div>
+            <div *ngSwitchCase="'time'">
+              <input
+                formControlName="answer"
+                type="time"
+                class="input-time"
+              />
+            </div>
+            <div *ngSwitchCase="'date'">
+              <input
+                formControlName="answer"
+                type="date"
+                class="input-date"
+              />
             </div>
           </div>
         </div>
-      </form>
-    </div>
+      </div>
+    </form>
   </div>
-  
+</div>
+

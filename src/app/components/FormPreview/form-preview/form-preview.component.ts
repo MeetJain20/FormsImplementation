@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormGroup, FormArray, AbstractControl, FormBuilder } from '@angular/forms';
+import { FormGroup, FormArray, AbstractControl } from '@angular/forms';
 
 @Component({
   selector: 'app-form-preview',
@@ -10,21 +10,26 @@ export class FormPreviewComponent implements OnInit {
   @Input() form!: FormGroup;
   formGroups!: FormGroup[];
 
-  constructor(private fb: FormBuilder) {}
-
   ngOnInit() {
     if (this.form) {
-      const fa = this.form.get('questions') as FormArray;
+      const fa = this.form.get('questionsListFormArray') as FormArray;
       this.formGroups = fa.controls as FormGroup[];
     }
   }
 
-  isRequired(question: AbstractControl): boolean|undefined {
+  isRequired(question: AbstractControl): boolean {
     const questionGroup = question as FormGroup;
-    return questionGroup.get('answer.response')?.hasError('required');
+    const answerControl = questionGroup.get('answer');
+    if (answerControl && answerControl.validator) {
+      const validator = answerControl.validator({} as AbstractControl);
+      if (validator && validator['required']) {
+        return true;
+      }
+    }
+    return false;
   }
 
   getOptions(question: FormGroup): FormArray {
-    return question.get('answer.options') as FormArray;
+    return question.get('options') as FormArray;
   }
 }
