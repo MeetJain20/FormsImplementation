@@ -2,7 +2,7 @@
   <div class="form-creation">
     <form [formGroup]="form" (ngSubmit)="onSubmit()">
       <div formArrayName="questions">
-        <div *ngFor="let question of questions.controls; let i = index" [formGroupName]="i">
+        <div *ngFor="let eachQuestionFormGroup of questions.controls; let i = index" [formGroup]="$any(eachQuestionFormGroup)">
           <label>
             Question Type:
             <select formControlName="type" (input)="onTypeChange($event, i)" class="question-type-dropdown">
@@ -17,20 +17,20 @@
           </label>
           <label>
             Question:
-            <input formControlName="question" type="text" class="input-text form-control" required>
+            <input type="text" pInputText formControlName="question" class="input-text"> 
           </label>
 
-          <div [ngSwitch]="question.get('type')?.value">
+          <div [ngSwitch]="eachQuestionFormGroup.get('type')?.value">
             <div *ngSwitchCase="'short'">
               <label>
-                Answer:
-                <input formControlName="response" type="text" class="input-text non-selectable" readonly>
+                Description:
+                <input formControlName="placeholder" type="text" class="input-text">
               </label>
             </div>
             <div *ngSwitchCase="'long'">
               <label>
-                Answer:
-                <textarea formControlName="response" class="textarea non-selectable" readonly></textarea>
+                Description:
+                <textarea formControlName="placeholder" class="textarea"></textarea>
               </label>
             </div>
             <div *ngSwitchCase="'multiple'">
@@ -41,7 +41,7 @@
                   </label>
                   <div *ngFor="let option of getOptions(i).controls; let j = index" [formGroupName]="j" class="option-value">
                     <input type="radio" [value]="option.value.value" (change)="onRadioChange($event, i)" class="input-radio">
-                    <input formControlName="value" type="text" class="input-option">
+                    <input pInputText formControlName="value" type="text" class="input-option">
                     <i *ngIf="j === getOptions(i).controls.length - 1" class="pi pi-plus-circle" (click)="handleIconClick($event, i)"></i>
                     <i *ngIf="j !== getOptions(i).controls.length - 1 || getOptions(i).controls.length > 1" class="pi pi-minus-circle" (click)="removeOption(i, j)"></i>
                   </div>
@@ -56,9 +56,9 @@
                   </label>
                   <div *ngFor="let option of getOptions(i).controls; let j = index" [formGroupName]="j" class="option-value">
                     <input type="checkbox" [value]="option.value.value" (change)="onCheckboxChange($event, i)" class="input-checkbox">
-                    <input formControlName="value" type="text" class="input-option">
+                    <input pInputText formControlName="value" type="text" class="input-option">
                     <i *ngIf="j === getOptions(i).controls.length - 1" class="pi pi-plus-circle" (click)="handleIconClick($event, i)"></i>
-                    <i *ngIf="j !== getOptions(i).controls.length - 2 || getOptions(i).controls.length > 1" class="pi pi-minus-circle" (click)="removeOption(i, j)"></i>
+                    <i *ngIf="j !== getOptions(i).controls.length - 1 || getOptions(i).controls.length > 1" class="pi pi-minus-circle" (click)="removeOption(i, j)"></i>
                   </div>
                 </div>
               </div>
@@ -76,10 +76,12 @@
               </label>
             </div>
           </div>
-          <label>
-            Required:
-            <input type="checkbox" formControlName="isRequired" (change)="onRequiredChange($event, i)">
-          </label>
+          <div class="requiredd">
+            <label>
+              Required:
+            </label>
+              <input type="checkbox" class="input-checkbox" formControlName="isRequired" (change)="onRequiredChange($event, i)">
+          </div>
           <button type="button" class="remove" (click)="removeQuestion(i)">Remove Question</button>
         </div>
       </div>

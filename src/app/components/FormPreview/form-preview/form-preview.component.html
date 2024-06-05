@@ -3,13 +3,13 @@
     <form [formGroup]="form">
       <div formArrayName="questions">
         <div *ngFor="let question of formGroups; let i = index" [formGroupName]="i" class="question">  
-          <label>
+          <label class="mb-2">
             {{ question.get('question')?.value }}
             <span *ngIf="isRequired(question)" class="required">*</span>
           </label>
           <div [ngSwitch]="question.get('type')?.value" class="mb-3">
-            <input *ngSwitchCase="'short'" type="text" formControlName="response" class="input-text" />
-            <textarea *ngSwitchCase="'long'" formControlName="response" rows="4" class="textarea"></textarea>
+            <input *ngSwitchCase="'short'" type="text" formControlName="response" class="input-text" [placeholder]="question.get('placeholder')?.value"/>
+            <textarea *ngSwitchCase="'long'" formControlName="response" rows="4" class="textarea" [placeholder]="question.get('placeholder')?.value"></textarea>
             <input *ngSwitchCase="'time'" type="time" formControlName="response" class="input-time" />
             <input *ngSwitchCase="'date'" type="date" formControlName="response" class="input-date" />
             <div *ngSwitchCase="'multiple'">

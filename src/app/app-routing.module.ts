@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { DynamicFormsComponent } from './components/dynamic-forms/dynamic-forms.component';
-import { FormPreviewComponent } from './components/FormPreview/form-preview/form-preview.component';
+import { DisplayFormComponent } from './components/DisplayForm/display-form/display-form.component';
 
 const routes: Routes = [
   {
@@ -9,7 +9,7 @@ const routes: Routes = [
     component: DynamicFormsComponent,
   },
   
-    { path: 'form-preview', component: FormPreviewComponent },
+    { path: 'displayform', component: DisplayFormComponent },
 ];
 
 @NgModule({

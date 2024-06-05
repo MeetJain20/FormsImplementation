@@ -1,19 +1,22 @@
-form {
-    max-width: 65%;
-    margin: 2rem auto;
+.form-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
     padding: 2rem;
-    border: 1px solid #ccc;
+    box-sizing: border-box;
+  }
+  
+  .form-preview {
+    flex: 1;
+    max-width: 45%;
+    background-color: #f9f9f9;
+    padding: 2rem;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    background-color: #f9f9f9;
   }
   
   label {
     display: block;
-  }
-
-  .heading{
-    text-align: center;
   }
   
   .input-text,
@@ -27,17 +30,8 @@ form {
     border-radius: 4px;
     box-sizing: border-box;
     outline: none;
-    font-size: 1rem;
-  }
-
-  .input-radio,.input-checkbox{
-    margin-right: 10px;
   }
   
-  .required{
-    color: red;
-  }
-
   .input-option {
     margin: 0.5rem 0.5rem;
     padding: 0.5rem;
@@ -48,22 +42,6 @@ form {
   .textarea {
     resize: vertical;
     height: 100px;
-  }
-  
-  .remove {
-    margin: 1.5rem 0rem;
-  }
-  
-  .addoption {
-    margin: 0.5rem 0rem;
-  }
-  
-  .types {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    gap: 10px;
-    margin-bottom: 1rem;
   }
   
   button {
@@ -77,6 +55,8 @@ form {
     flex-direction: row;
     align-items: center;
   }
-  
 
+  .required{
+    color: red;
+  }
   

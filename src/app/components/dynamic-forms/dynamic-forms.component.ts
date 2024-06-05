@@ -30,7 +30,10 @@ export class DynamicFormsComponent implements OnInit {
       answer: this.fb.group({})
     });
 
-    if (type === 'short' || type === 'long' || type === 'time' || type === 'date') {
+    if (type === 'short' || type === 'long') {
+      (question as FormGroup).addControl('placeholder', this.fb.control(''));
+      (question.get('answer') as FormGroup).addControl('response', this.fb.control(''));
+    } else if (type === 'time' || type === 'date') {
       (question.get('answer') as FormGroup).addControl('response', this.fb.control(''));
     } else if (type === 'multiple' || type === 'checkbox') {
       const options = this.fb.array([this.createOption()]);
@@ -152,9 +155,9 @@ export class DynamicFormsComponent implements OnInit {
       alert(invalidQuestion);
       return;
     }
-
     console.log(this.form.value);
-    this.router.navigate(['/form-preview'], { state: { form: this.form.value } });
+    const formValue = this.form.value;
+    this.router.navigate(['/displayform'], { state: { form: JSON.stringify(formValue) } });
   }
 
   getInvalidQuestion(): string | null {
@@ -173,6 +176,4 @@ export class DynamicFormsComponent implements OnInit {
     }
     return null;
   }
-
-
 }
